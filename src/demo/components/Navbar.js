@@ -14,7 +14,8 @@ const Navbar = () => {
   const [vRegModalOpen, setVRegModalOpen] = useState(false);
   const [locationModalOpen, setLocationModalOpen] = useState(false);
   const [location, setLocation] = useState("Current Location");
-  const [tempLocation, setTempLocation] = useState(""); // State for temporary location input
+  //state for temporary location input
+  const [tempLocation, setTempLocation] = useState("");
 
   const handleLocationChange = (e) => {
     setTempLocation(e.target.value);
@@ -26,7 +27,7 @@ const Navbar = () => {
   };
 
   const openLocationModal = () => {
-    setTempLocation(""); // Reset temporary location input when modal is opened
+    setTempLocation("");
     setLocationModalOpen(true);
   };
 
