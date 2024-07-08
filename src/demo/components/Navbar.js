@@ -1,17 +1,30 @@
 import React, { useState } from "react";
-import { Modal, Button, Input, Dropdown, Menu } from "antd";
+import { Modal, Button, Input, Dropdown, Menu, Divider } from "antd";
 import {
   EnvironmentOutlined,
   UserOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
 import SignInModal from "./SignInModal";
+import UserRegistrationModal from "./UserRegistrationModal";
+import VendorSignInModal from "./VendorSignInModal";
 import VendorRegistrationModal from "./VendorRegistrationModal";
 import "./Navbar.css";
 
 const Navbar = () => {
+  //user sign In modal
   const [signInModalOpen, setSignInModalOpen] = useState(false);
+
+  //vendor sign in modal
+  const [vSignInModalOpen, setVSignInModalOpen] = useState(false);
+
+  //user registration modal
+  const [userRegModalOpen, setUserRegModalOpen] = useState(false);
+
+  //vendor registration modal
   const [vRegModalOpen, setVRegModalOpen] = useState(false);
+
+  //location modal
   const [locationModalOpen, setLocationModalOpen] = useState(false);
   const [location, setLocation] = useState("Current Location");
   //state for temporary location input
@@ -36,13 +49,12 @@ const Navbar = () => {
       <Menu.Item key="login" onClick={() => setSignInModalOpen(true)}>
         Log In
       </Menu.Item>
-      <Menu.Item key="signup" onClick={() => setVRegModalOpen(true)}>
+      <Menu.Item key="signup" onClick={() => setUserRegModalOpen(true)}>
         Sign Up
       </Menu.Item>
-      <Menu.Item key="helpcenter">
-        <a href="/help-center" target="_blank" rel="noopener noreferrer">
-          Help Center
-        </a>
+      <Divider />
+      <Menu.Item key="vSignup" onClick={() => setVSignInModalOpen(true)}>
+        Log In as Vendor
       </Menu.Item>
     </Menu>
   );
@@ -60,11 +72,17 @@ const Navbar = () => {
       </div>
       <h1 className="title">TRAVEL BUDDY</h1>
       <div className="nav-icons">
+        <Button type="text" onClick={() => setVRegModalOpen(true)}>
+          Register as Vendor
+        </Button>
         <Dropdown overlay={menu} trigger={["click"]}>
           <Button type="text" icon={<UserOutlined />} />
         </Dropdown>
+
         <Button type="text" icon={<MenuOutlined />} />
       </div>
+
+      {/* User Sign In Modal */}
       <Modal
         centered
         open={signInModalOpen}
@@ -78,6 +96,38 @@ const Navbar = () => {
           setVRegModalOpen={setVRegModalOpen}
         />
       </Modal>
+
+      {/* User Registration Modal */}
+      <Modal
+        centered
+        open={userRegModalOpen}
+        onOk={() => setUserRegModalOpen(false)}
+        onCancel={() => setUserRegModalOpen(false)}
+        width={vRegModalOpen ? 500 : 500}
+        footer={null}
+      >
+        <UserRegistrationModal
+          setUserRegModalOpen={setUserRegModalOpen}
+          setVRegModalOpen={setVRegModalOpen}
+        />
+      </Modal>
+
+      {/* Vendor Sign In Modal */}
+      <Modal
+        centered
+        open={vSignInModalOpen}
+        onOk={() => setVSignInModalOpen(false)}
+        onCancel={() => setVSignInModalOpen(false)}
+        width={vRegModalOpen ? 500 : 500}
+        footer={null}
+      >
+        <VendorSignInModal
+          setVSignInModalOpen={setVSignInModalOpen}
+          setVRegModalOpen={setVRegModalOpen}
+        />
+      </Modal>
+
+      {/* Vendor  registration Modal */}
       <VendorRegistrationModal
         isVisible={vRegModalOpen}
         onClose={() => setVRegModalOpen(false)}
