@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+}
+
+.location {
+  flex: 1;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.nav-icons {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.nav-icons .ant-btn {
+  margin-left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}

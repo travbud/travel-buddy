@@ -1,0 +1,14 @@
+/* Center the menu in the middle of the page */
+
+.menu-item {
+    font-size: 18px; 
+    margin-right: 70px;
+  }
+
+  
+.custom-menu  {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    padding-right: 70px; 
+}

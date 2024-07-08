@@ -1,0 +1,91 @@
+.title-container {
+  height: 30px;
+}
+
+.main-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.v-register-form-div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 50px;
+  width: 80%;
+}
+
+.input-div {
+  margin-bottom: 15px;
+ 
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+}
+
+.steps-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 150px 150px 150px 150px;
+}
+
+.custom-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: transparent;
+  color: #000000;
+  cursor: pointer;
+  text-align: center;
+  padding: 16px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin: 8px;
+}
+
+.card-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 14px;
+}
+
+.card-text {
+  font-size: 12px;
+}
+
+.custom-card:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-card.selected {
+  border-color: #1890ff;
+  background-color: rgba(24, 144, 255, 0.1);
+}
+
+.ant-upload-wrapper .ant-upload-drag .ant-upload-btn {
+  display: table;
+  width: 600px;
+  height: 100%;
+  outline: none;
+  border-radius: 8px;
+}
