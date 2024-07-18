@@ -1,0 +1,27 @@
+.menu-and-recommendations-div {
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+}
+
+.user-menu-icon {
+    width: 10px;
+    height: auto;
+}
+
+.user-menu-div {
+    margin-right: 30px;
+}
+
+.recommendations-div {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+  }
+
+  .cards-container {
+    display: grid;
+    grid-template-columns: 150px 150px 150px 150px;
+  }
+
+  

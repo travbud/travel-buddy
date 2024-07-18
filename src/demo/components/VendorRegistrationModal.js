@@ -9,55 +9,83 @@ import {
 } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import axios from "axios";
-import iconImage from "../assets/travelBuddyIcon.png";
-import cardIcon from "../assets/accountIcon.png";
 import "./VendorRegistrationModal.css";
+
+//icon imports
+import iconImage from "../assets/travelBuddyIcon.png";
+import homeIcon from "../assets/homeIcon.svg";
+import villaIcon from "../assets/villaIcon.png";
+import hotelIcon from "../assets/hotelIcon.svg";
+import airbnbIcon from "../assets/airbnbIcon.svg";
+import resortIcon from "../assets/resortIcon.png";
+import accomodationIcon from "../assets/accomodationIcon.svg";
+import transportIcon from "../assets/transportIcon.png";
+import recreationIcon from "../assets/recreationIcon.svg";
+import adventureIcon from "../assets/adventureIcon.svg";
+import foodIcon from "../assets/foodIcon.svg";
+import bikeIcon from "../assets/bikeIcon.svg";
+import busIcon from "../assets/busIcon.svg";
+import cabIcon from "../assets/cabIcon.svg";
+import ponyRidingIcon from "../assets/ponyRidingIcon.png";
+import gardenIcon from "../assets/gardenIcon.svg";
+import orchardIcon from "../assets/orchardIcon.png";
+import batIcon from "../assets/batIcon.png";
+import shawlFactoryIcon from "../assets/shawlFactoryIcon.png";
+import foodTruckIcon from "../assets/foodTruckIcon.png";
+import trekkingIcon from "../assets/trekkingIcon.png";
+import skiingIcon from "../assets/skiingIcon.svg";
+import snowboardingIcon from "../assets/snowboardingIcon.svg";
+import campingIcon from "../assets/campingIcon.svg";
+import restaurantIcon from "../assets/restaurantIcon.png";
+import fineDineIcon from "../assets/fineDineIcon.png";
+import cafeIcon from "../assets/cafeIcon.svg";
+import streetFoodIcon from "../assets/streetFoodIcon.png";
 
 const { Step } = Steps;
 
 const cardData = [
-  { icon: cardIcon, text: "Accomodation" },
-  { icon: cardIcon, text: "Transport" },
-  { icon: cardIcon, text: "Recreation" },
-  { icon: cardIcon, text: "Adventure" },
-  { icon: cardIcon, text: "Food & Beverages" },
+  { icon: accomodationIcon, text: "Accomodation" },
+  { icon: transportIcon, text: "Transport" },
+  { icon: recreationIcon, text: "Recreation" },
+  { icon: adventureIcon, text: "Adventure" },
+  { icon: foodIcon, text: "Food & Beverages" },
 ];
 
 const serviceSubcategories = {
   Accomodation: [
-    { icon: cardIcon, text: "Hotel" },
-    { icon: cardIcon, text: "Villa" },
-    { icon: cardIcon, text: "Resort" },
-    { icon: cardIcon, text: "Homestay" },
-    { icon: cardIcon, text: "Airbnb" },
+    { icon: hotelIcon, text: "Hotel" },
+    { icon: villaIcon, text: "Villa" },
+    { icon: resortIcon, text: "Resort" },
+    { icon: homeIcon, text: "Homestay" },
+    { icon: airbnbIcon, text: "Airbnb" },
   ],
   Transport: [
-    { icon: cardIcon, text: "Car Rental" },
-    { icon: cardIcon, text: "Bike Rental" },
-    { icon: cardIcon, text: "Local Transport" },
-    { icon: cardIcon, text: "Cab Service" },
+    { icon: transportIcon, text: "Car Rental" },
+    { icon: bikeIcon, text: "Bike Rental" },
+    { icon: busIcon, text: "Local Transport" },
+    { icon: cabIcon, text: "Cab Service" },
   ],
   Recreation: [
-    { icon: cardIcon, text: "Shikara Ride" },
-    { icon: cardIcon, text: "Pony Riding" },
-    { icon: cardIcon, text: "Garden Tours" },
-    { icon: cardIcon, text: "Orchard Tours" },
-    { icon: cardIcon, text: "Bat Factory Tours" },
-    { icon: cardIcon, text: "Shawl Factory Tours" },
+    { icon: recreationIcon, text: "Shikara Ride" },
+    { icon: ponyRidingIcon, text: "Pony Riding" },
+    { icon: gardenIcon, text: "Garden Tours" },
+    { icon: orchardIcon, text: "Orchard Tours" },
+    { icon: batIcon, text: "Bat Factory Tours" },
+    { icon: shawlFactoryIcon, text: "Shawl Factory Tours" },
   ],
   Adventure: [
-    { icon: cardIcon, text: "Hiking" },
-    { icon: cardIcon, text: "Skiing" },
-    { icon: cardIcon, text: "Snowboarding" },
-    { icon: cardIcon, text: "Camping" },
-    { icon: cardIcon, text: "Trekking" },
+    { icon: adventureIcon, text: "Hiking" },
+    { icon: skiingIcon, text: "Skiing" },
+    { icon: snowboardingIcon, text: "Snowboarding" },
+    { icon: campingIcon, text: "Camping" },
+    { icon: trekkingIcon, text: "Trekking" },
   ],
   "Food & Beverages": [
-    { icon: cardIcon, text: "Restaurant" },
-    { icon: cardIcon, text: "Cafe" },
-    { icon: cardIcon, text: "Street Food" },
-    { icon: cardIcon, text: "Food Truck" },
-    { icon: cardIcon, text: "Fine Dine" },
+    { icon: restaurantIcon, text: "Restaurant" },
+    { icon: cafeIcon, text: "Cafe" },
+    { icon: streetFoodIcon, text: "Street Food" },
+    { icon: foodTruckIcon, text: "Food Truck" },
+    { icon: fineDineIcon, text: "Fine Dine" },
   ],
 };
 
@@ -331,8 +359,8 @@ const VendorRegistrationModal = ({ isVisible, onClose }) => {
                 Click or drag file to this area to upload
               </p>
               <p className="ant-upload-hint">
-                Support for a single or bulk upload. Strictly prohibited from
-                uploading company data or other banned files.
+                Support for a single upload. Strictly prohibited from uploading
+                company data or other banned files.
               </p>
             </Dragger>
           </form>

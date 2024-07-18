@@ -10,6 +10,7 @@ import UserRegistrationModal from "./UserRegistrationModal";
 import VendorSignInModal from "./VendorSignInModal";
 import VendorRegistrationModal from "./VendorRegistrationModal";
 import "./Navbar.css";
+import travelBuddyLogo from "../assets/travelBuddyLogo.png";
 
 const Navbar = () => {
   //user sign In modal
@@ -70,7 +71,11 @@ const Navbar = () => {
           {location}
         </Button>
       </div>
-      <h1 className="title">TRAVEL BUDDY</h1>
+      <img
+        src={travelBuddyLogo}
+        alt="TRAVEL BUDDY"
+        className="travel-buddy-logo"
+      />
       <div className="nav-icons">
         <Button type="text" onClick={() => setVRegModalOpen(true)}>
           Register as Vendor
