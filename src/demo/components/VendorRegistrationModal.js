@@ -210,7 +210,7 @@ const VendorRegistrationModal = ({ isVisible, onClose }) => {
       };
 
       try {
-        const response = await axios.post("API_ENDPOINT", payload);
+        const response = await axios.post("/api/auth/vendor/register", payload);
         message.success("Vendor registered successfully!");
         onClose();
       } catch (error) {

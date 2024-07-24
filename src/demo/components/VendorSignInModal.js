@@ -1,24 +1,99 @@
 import React, { useState } from "react";
-import "./SignInModal.css";
+import "./VendorSignInModal.css";
 import iconImage from "../assets/travelBuddyIcon.png";
-import googleIcon from "../assets/googleIcon.png";
-import fbIcon from "../assets/fbIcon.png";
-import appleIcon from "../assets/appleIcon.png";
-import phoneIcon from "../assets/phoneIcon.png";
-import emailIcon from "../assets/emailIcon.png";
+import phoneIcon from "../assets/mobileIcon.svg";
+import emailIcon from "../assets/emailIcon.svg";
+import { Flex, Input, Typography } from "antd";
+
+const { Title } = Typography;
 
 const SignInModal = ({ setSignInModalOpen, setVRegModalOpen }) => {
-  const [usePhone, setUsePhone] = useState(false);
+  const [usePhone, setUsePhone] = useState(true);
+  const [otpGenerated, setOtpGenerated] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailId, setEmailId] = useState("");
+  const [phoneCode, setPhoneCode] = useState("+91");
+  const [errors, setErrors] = useState({});
 
-  //toggle between phone and email button
-  const handlePhoneToggle = () => {
-    setUsePhone((prevUsePhone) => !usePhone);
+  //ant d otp field
+  const onChange = (text) => {
+    setOtp(text);
+  };
+  const sharedProps = {
+    onChange,
   };
 
-  const handleSubmit = (event) => {
+  //handle phone and email toggle
+  const handlePhoneToggle = () => {
+    setUsePhone((prevUsePhone) => !prevUsePhone);
+    setOtpGenerated(false);
+    setOtp("");
+    setErrors({});
+  };
+
+  const handleOtpGenerate = () => {
+    const newErrors = {};
+    if (usePhone) {
+      if (!phoneNumber) {
+        newErrors.phoneNumber = "Please enter phone number.";
+      }
+    } else {
+      if (!emailId) {
+        newErrors.emailId = "Please enter email Id.";
+      }
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      setOtpGenerated(true);
+    } else {
+      setOtpGenerated(false);
+    }
+    setErrors(newErrors);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setSignInModalOpen(false);
-    setVRegModalOpen(true);
+    const newErrors = { ...errors };
+
+    if (!otpGenerated) {
+      newErrors.otp = "Generate OTP first.";
+      setErrors(newErrors);
+      return;
+    }
+
+    if (!otp) {
+      newErrors.otp = "Please fill out this field.";
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors(newErrors);
+
+    const formData = {
+      otp,
+      ...(usePhone ? { phoneCode, phoneNumber } : { emailId }),
+    };
+
+    try {
+      const response = await fetch("api_endpoint", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log("Success:", await response.json());
+        setSignInModalOpen(false);
+        setVRegModalOpen(true);
+      } else {
+        console.error("Error:", await response.json());
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -30,13 +105,19 @@ const SignInModal = ({ setSignInModalOpen, setVRegModalOpen }) => {
 
       <div className="body-container">
         <div className="sign-in-form-div">
-          <h3>Sign In/Sign Up</h3>
+          <h3>Log In</h3>
           <form onSubmit={handleSubmit}>
             {usePhone ? (
               <>
                 <div className="phone-div">
                   <label>Country / Region</label>
-                  <select name="phoneCode" className="phoneCodes" required>
+                  <select
+                    name="phoneCode"
+                    className="phoneCodes"
+                    value={phoneCode}
+                    onChange={(e) => setPhoneCode(e.target.value)}
+                    required
+                  >
                     <option value="+91">+91 (India)</option>
                     <option value="+1">+1 (US)</option>
                   </select>
@@ -45,9 +126,35 @@ const SignInModal = ({ setSignInModalOpen, setVRegModalOpen }) => {
                     name="phoneNumber"
                     type="tel"
                     placeholder="Enter your phone number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                   />
+                  {errors.phoneNumber && (
+                    <span className="error-message">{errors.phoneNumber}</span>
+                  )}
                 </div>
+                <button
+                  type="button"
+                  className="otp-button"
+                  onClick={handleOtpGenerate}
+                >
+                  {otpGenerated ? "Regenerate OTP" : "Generate OTP"}
+                </button>
+                {otpGenerated && (
+                  <div className="otp-div">
+                    <label>OTP</label>
+                    <Flex gap="middle" align="flex-start" vertical>
+                      <Input.OTP
+                        formatter={(str) => str.toUpperCase()}
+                        {...sharedProps}
+                      />
+                    </Flex>
+                    {errors.otp && (
+                      <span className="error-message">{errors.otp}</span>
+                    )}
+                  </div>
+                )}
               </>
             ) : (
               <>
@@ -57,41 +164,46 @@ const SignInModal = ({ setSignInModalOpen, setVRegModalOpen }) => {
                     name="email"
                     type="email"
                     placeholder="Enter your email Id"
+                    value={emailId}
+                    onChange={(e) => setEmailId(e.target.value)}
                     required
                   />
+                  {errors.emailId && (
+                    <span className="error-message">{errors.emailId}</span>
+                  )}
                 </div>
-                <div className="password-div">
-                  <label>Password</label>
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                  />
-                </div>
+
+                <button
+                  type="button"
+                  className="otp-button"
+                  onClick={handleOtpGenerate}
+                >
+                  {otpGenerated ? "Regenerate OTP" : "Generate OTP"}
+                </button>
+                {otpGenerated && (
+                  <div className="otp-div">
+                    <label>OTP</label>
+                    <Flex gap="middle" align="flex-start" vertical>
+                      <Input.OTP
+                        formatter={(str) => str.toUpperCase()}
+                        {...sharedProps}
+                      />
+                    </Flex>
+                    {errors.otp && (
+                      <span className="error-message">{errors.otp}</span>
+                    )}
+                  </div>
+                )}
               </>
             )}
             <button className="button-1" type="submit">
-              REGISTER
+              LOGIN
             </button>
           </form>
         </div>
 
-        {/*different sign in options*/}
         <div className="btns-div">
           <h5>OR</h5>
-          <button className="button-2">
-            <img src={googleIcon} className="google-icon" alt="Google Icon" />
-            <span>Sign In with Google</span>
-          </button>
-          <button className="button-2">
-            <img src={fbIcon} className="fb-icon" alt="Facebook Icon" />
-            <span>Sign In with Facebook</span>
-          </button>
-          <button className="button-2">
-            <img src={appleIcon} className="apple-icon" alt="Apple Icon" />
-            <span>Sign In with Apple</span>
-          </button>
           <button className="button-2" onClick={handlePhoneToggle}>
             <img
               src={usePhone ? emailIcon : phoneIcon}

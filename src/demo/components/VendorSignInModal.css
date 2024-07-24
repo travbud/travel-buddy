@@ -1,98 +1,105 @@
 .title-container {
-    display: flex;
-    flex-direction: row;
-    margin-top: 18px;
-  }
-  
-  .main-icon {
-    width: 30px;
-    height: 30px;
-  }
-  
-  .main-title {
-    padding: 0px;
-    margin: 0px;
-  }
-  
-  .body-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .sign-in-form-div { 
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    
-  }
-  
-  .email-div, .phone-div, .password-div {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  
-  .phone-div .phoneCodes {
-    padding: 10px;
-    border-radius: 5px;
-    border-style: groove;
-    margin-bottom: 12px;
-  }
-  
-  
-  
-  .register-btn {
-    border-radius: 5px;
-    background-color: #2c6d9c;
-    color: #FFFFFF;
-    padding: 10px;
-    width: 100%;
-    box-shadow: none;
-    border: none;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-  
-  
-  
-  input, .phoneCodes {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-  }
-  
-  
-  .register-btn:hover {
-    background-color: #b6cac8;
-    color: black;
-    cursor: pointer;
-  }
-  
-  .btns-div {
-    margin-top: 10px; 
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    text-align: center;
-  }
-  
-  
-  
-  .google-icon, .fb-icon{
+  display: flex;
+  flex-direction: row;
+  margin-top: 18px;
+}
+
+.main-icon {
   width: 30px;
   height: 30px;
-  position: absolute;
-  left: 10px;
-  }
+}
+
+.main-title {
+  padding: 0px;
+  margin: 0px;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-in-form-div { 
+  display: flex;
+  flex-direction: column;
+  width: 70%;
   
-  .apple-icon, .email-icon, .phone-icon {
-  width: 25px;
-  height: 25px;
+}
+
+.email-div, .phone-div, .password-div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.phone-div .phoneCodes {
+  padding: 10px;
+  border-radius: 5px;
+  border-style: groove;
+  margin-bottom: 12px;
+}
+
+
+
+.register-btn {
+  border-radius: 5px;
+  background-color: #2c6d9c;
+  color: #FFFFFF;
+  padding: 10px;
+  width: 100%;
+  box-shadow: none;
+  border: none;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+
+
+input, .phoneCodes {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+}
+
+
+.register-btn:hover {
+  background-color: #b6cac8;
+  color: black;
+  cursor: pointer;
+}
+
+.btns-div {
+  margin-top: 10px; 
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  text-align: center;
+}
+
+
+.email-icon, .phone-icon {
+  width: 18px;
+  height: auto;
   position: absolute;
   left: 12px;
-  }
-  
-  
+}
+
+.otp-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  float: right;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.otp-button:hover {
+  text-decoration: underline;
+}
+
+.otp-div {
+  margin-top: 50px;
+}
