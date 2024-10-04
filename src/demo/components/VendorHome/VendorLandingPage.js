@@ -1,22 +1,34 @@
 import React, { useState } from "react";
-import "./VendorLandingPage.css";
+//import "./VendorLandingPage.css";
 import {
   AppstoreOutlined,
   TeamOutlined,
   SettingOutlined,
   LineChartOutlined,
+  BookOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+
+import { Button, Menu } from "antd";
 import VendorServices from "./VendorServices";
 import VendorTeamMembers from "./VendorTeamMembers";
 import VendorAnalytics from "./VendorAnalytics";
 import VendorSettings from "./VendorSettings";
+import VendorBookings from "./VendorBookings";
 
+// Menu items
 const items = [
   {
     label: "Services",
     key: "services",
     icon: <AppstoreOutlined />,
+    className: "menu-item",
+  },
+  {
+    label: "Bookings",
+    key: "bookings",
+    icon: <BookOutlined />,
     className: "menu-item",
   },
   {
@@ -41,11 +53,17 @@ const items = [
 
 const VendorLandingPage = () => {
   const [current, setCurrent] = useState("services");
+  const [collapsed, setCollapsed] = useState(false);
+
   const onClick = (e) => {
-    console.log("click ", e);
     setCurrent(e.key);
   };
 
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
+  // Component switching logic
   let Component;
   switch (current) {
     case "services":
@@ -60,21 +78,45 @@ const VendorLandingPage = () => {
     case "settings":
       Component = VendorSettings;
       break;
+    case "bookings": // New case for bookings
+      Component = VendorBookings;
+      break;
     default:
       Component = VendorServices;
   }
 
   return (
-    <>
-      <Menu
-        onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        items={items}
-        className="custom-menu"
-      />
-      <Component />
-    </>
+    <div className="vendor-page">
+      <div
+        style={{
+          width: 256,
+        }}
+      >
+        <Button
+          type="primary"
+          onClick={toggleCollapsed}
+          style={{
+            marginBottom: 16,
+          }}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Button>
+        <Menu
+          defaultSelectedKeys={["1"]}
+          defaultOpenKeys={["sub1"]}
+          mode="inline"
+          theme="light"
+          inlineCollapsed={collapsed}
+          items={items}
+          onClick={onClick}
+          selectedKeys={[current]}
+          className="custom-menu"
+        />
+      </div>
+      <div className="content-container">
+        <Component />
+      </div>
+    </div>
   );
 };
 

@@ -5,8 +5,6 @@ import phoneIcon from "../assets/mobileIcon.svg";
 import emailIcon from "../assets/emailIcon.svg";
 import { Flex, Input, Typography } from "antd";
 
-const { Title } = Typography;
-
 const SignInModal = ({ setSignInModalOpen, setVRegModalOpen }) => {
   const [usePhone, setUsePhone] = useState(true);
   const [otpGenerated, setOtpGenerated] = useState(false);

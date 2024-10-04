@@ -201,6 +201,8 @@ const VendorRegistrationModal = ({ isVisible, onClose }) => {
 
   const prev = () => setCurrent(current - 1);
 
+  const API_BASE_URL = "http://localhost:5000";
+
   const register = async () => {
     if (validateStep()) {
       const payload = {
@@ -210,7 +212,10 @@ const VendorRegistrationModal = ({ isVisible, onClose }) => {
       };
 
       try {
-        const response = await axios.post("/api/auth/vendor/register", payload);
+        const response = await axios.post(
+          `${API_BASE_URL}/api/vendor/register`,
+          payload
+        );
         message.success("Vendor registered successfully!");
         onClose();
       } catch (error) {

@@ -27,7 +27,7 @@
   
 }
 
-.email-div, .phone-div, .password-div {
+.email-div, .phone-div{
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
