@@ -1,0 +1,19 @@
+.services-body {
+    padding: 20px;
+  }
+  
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .add-service-button {
+    float: right;
+  }
+  
+  .service-menu {
+    margin-bottom: 20px;
+  }
+  

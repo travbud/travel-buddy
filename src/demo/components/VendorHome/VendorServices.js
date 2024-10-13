@@ -1,254 +1,241 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
-import { AppstoreOutlined } from "@ant-design/icons";
-import { Menu } from "antd";
-import "./VendorServices.css";
+import React, { useState, useEffect } from "react";
+import { Menu, Table, Button, Space, Modal, Form, Input } from "antd";
 
-//service types and subtypes
-const items = [
-  {
-    key: "service1",
-    label: "Accomodation",
-    icon: <AppstoreOutlined />,
-    children: [
-      {
-        key: "hotel",
-        label: "Hotel",
-      },
-      {
-        key: "villa",
-        label: "Villa",
-      },
-    ],
-  },
-  {
-    type: "divider",
-  },
-  {
-    key: "service2",
-    label: "Transport",
-    icon: <AppstoreOutlined />,
-    children: [
-      {
-        key: "cabService",
-        label: "Cab Service",
-      },
-      {
-        key: "carRental",
-        label: "Car Rentals",
-      },
-      {
-        key: "bikeRental",
-        label: "Bike Rentals",
-      },
-    ],
-  },
+const categories = [
+  "accommodation",
+  "adventure",
+  "recreation",
+  "transport",
+  "foodAndBeverages",
 ];
 
-//table for services
-const EditableContext = React.createContext(null);
-const EditableRow = ({ index, ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-const EditableCell = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
-  const form = useContext(EditableContext);
-  useEffect(() => {
-    if (editing) {
-      inputRef.current?.focus();
-    }
-  }, [editing]);
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
-  };
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({
-        ...record,
-        ...values,
-      });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-  let childNode = children;
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-  return <td {...restProps}>{childNode}</td>;
-};
-
 const VendorServices = () => {
-  const [dataSource, setDataSource] = useState([
-    {
-      key: "0",
-      name: "Hotel no 1",
-      stars: "5",
-      address: "Abcd efgh",
-    },
-    {
-      key: "1",
-      name: "Hotel no 2",
-      stars: "3",
-      address: "Mnop qrstuv",
-    },
-  ]);
-  const [count, setCount] = useState(2);
-  const handleDelete = (key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
+  const [currentCategory, setCurrentCategory] = useState("accommodation"); // default selection
+  const [dataSource, setDataSource] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
+  const [form] = Form.useForm();
+
+  //dummy data - will get this from api res
+  const data = {
+    accommodation: [
+      { key: "1", name: "Hotel A", address: "123 Main St", stars: "5" },
+      { key: "2", name: "Villa B", address: "456 Oak Ave", stars: "4" },
+    ],
+    adventure: [
+      { key: "1", name: "Trekking", description: "Mountain Trekking" },
+      { key: "2", name: "Paragliding", description: "Sky high adventure" },
+    ],
+    recreation: [
+      { key: "1", name: "Swimming Pool", location: "City Center" },
+      { key: "2", name: "Bowling Alley", location: "Downtown" },
+    ],
+    transport: [
+      { key: "1", type: "Cab Service", fleet: "10 cars" },
+      { key: "2", type: "Bike Rentals", fleet: "15 bikes" },
+    ],
+    foodAndBeverages: [
+      { key: "1", name: "Street Food", location: "Market Square" },
+      { key: "2", name: "Fine Dining", location: "Luxury Hotel" },
+    ],
   };
 
-  const defaultColumns = [
-    {
-      title: "name",
-      dataIndex: "name",
-      width: "30%",
-      editable: true,
-    },
-    {
-      title: "stars",
-      dataIndex: "age",
-    },
-    {
-      title: "address",
-      dataIndex: "address",
-    },
-    {
-      title: "operation",
-      dataIndex: "operation",
-      render: (_, record) =>
-        dataSource.length >= 1 ? (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => handleDelete(record.key)}
-          >
-            <a>Delete</a>
-          </Popconfirm>
-        ) : null,
-    },
-  ];
-  const handleAdd = () => {
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: "32",
-      address: `London, Park Lane no. ${count}`,
-    };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
+  //columns
+  const columnDefinitions = {
+    accommodation: [
+      { title: "Name", dataIndex: "name", key: "name" },
+      { title: "Address", dataIndex: "address", key: "address" },
+      { title: "Stars", dataIndex: "stars", key: "stars" },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleEdit(record)}>Edit</Button>
+            <Button danger onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          </Space>
+        ),
+      },
+    ],
+    adventure: [
+      { title: "Name", dataIndex: "name", key: "name" },
+      { title: "Description", dataIndex: "description", key: "description" },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleEdit(record)}>Edit</Button>
+            <Button danger onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          </Space>
+        ),
+      },
+    ],
+    recreation: [
+      { title: "Name", dataIndex: "name", key: "name" },
+      { title: "Location", dataIndex: "location", key: "location" },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleEdit(record)}>Edit</Button>
+            <Button danger onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          </Space>
+        ),
+      },
+    ],
+    transport: [
+      { title: "Type", dataIndex: "type", key: "type" },
+      { title: "Fleet", dataIndex: "fleet", key: "fleet" },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleEdit(record)}>Edit</Button>
+            <Button danger onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          </Space>
+        ),
+      },
+    ],
+    foodAndBeverages: [
+      { title: "Name", dataIndex: "name", key: "name" },
+      { title: "Location", dataIndex: "location", key: "location" },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleEdit(record)}>Edit</Button>
+            <Button danger onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          </Space>
+        ),
+      },
+    ],
   };
-  const handleSave = (row) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
+
+  useEffect(() => {
+    setDataSource(data[currentCategory]);
+    setColumns(columnDefinitions[currentCategory]);
+  }, [currentCategory]);
+
+  useEffect(() => {
+    setDataSource(data["accommodation"]);
+    setColumns(columnDefinitions["accommodation"]);
+  }, []);
+
+  const handleMenuClick = (e) => {
+    setCurrentCategory(e.key);
+  };
+
+  const handleEdit = (record) => {
+    setCurrentRecord(record);
+    form.setFieldsValue(record);
+    setIsModalVisible(true);
+  };
+
+  const handleDelete = (record) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this record?",
+      onOk: () => {
+        const newData = dataSource.filter((item) => item.key !== record.key);
+        setDataSource(newData);
+      },
     });
-    setDataSource(newData);
   };
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-  const columns = defaultColumns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
-  });
 
-  const onClick = (e) => {
-    console.log("click ", e);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setCurrentRecord(null);
+    form.resetFields();
+  };
+
+  const handleAddOrUpdate = () => {
+    const values = form.getFieldsValue();
+    if (currentRecord) {
+      // Edit existing record
+      setDataSource((prevData) =>
+        prevData.map((item) =>
+          item.key === currentRecord.key ? { ...item, ...values } : item
+        )
+      );
+    } else {
+      // Add new record
+      const newKey = (dataSource.length + 1).toString();
+      const newRecord = { key: newKey, ...values };
+      setDataSource([...dataSource, newRecord]);
+    }
+    handleCancel();
   };
 
   return (
-    <div className="services-body">
+    <div>
+      <h1>Services</h1>
       <Menu
-        onClick={onClick}
-        style={{
-          width: 256,
+        onClick={handleMenuClick}
+        selectedKeys={[currentCategory]}
+        mode="horizontal"
+      >
+        <Menu.Item key="accommodation">Accommodation</Menu.Item>
+        <Menu.Item key="adventure">Adventure</Menu.Item>
+        <Menu.Item key="recreation">Recreation</Menu.Item>
+        <Menu.Item key="transport">Transport</Menu.Item>
+        <Menu.Item key="foodAndBeverages">Food & Beverages</Menu.Item>
+      </Menu>
+
+      <Button
+        type="primary"
+        style={{ marginTop: 16, float: "right" }}
+        onClick={() => {
+          setCurrentRecord(null);
+          form.resetFields();
+          setIsModalVisible(true);
         }}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        items={items}
-      />
+      >
+        Add New Service
+      </Button>
 
       <Table
-        components={components}
-        rowClassName={() => "editable-row"}
-        bordered
-        dataSource={dataSource}
+        style={{ marginTop: 16, clear: "both" }}
         columns={columns}
+        dataSource={dataSource}
       />
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
+
+      <Modal
+        title={currentRecord ? "Edit Service" : "Add New Service"}
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        onOk={handleAddOrUpdate}
       >
-        Add new Service
-      </Button>
+        <Form form={form} layout="vertical">
+          {columns
+            .filter((col) => col.dataIndex)
+            .map((col) => (
+              <Form.Item
+                key={col.dataIndex}
+                name={col.dataIndex}
+                label={col.title}
+                rules={[
+                  { required: true, message: `Please input ${col.title}` },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            ))}
+        </Form>
+      </Modal>
     </div>
   );
 };

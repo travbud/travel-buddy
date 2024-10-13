@@ -11,6 +11,7 @@ const initialData = [
     emailID: "abc@gmail.com",
     address: "123 Main St",
     licenceNumber: "4729ywiuhw",
+    status: "Active",
     areaOfService: "Trekking",
     extraDetails:
       "This person handles trekking activities in and around Pahalgam area.",
@@ -22,6 +23,7 @@ const initialData = [
     emailID: "mno@gmail.com",
     address: "456 Maple Ave",
     licenceNumber: "4729ywiuhw",
+    status: "Inactive",
     areaOfService: "Cab Rental",
     extraDetails: "This person manages 3 cabs in Srinagar area.",
   },
@@ -32,6 +34,7 @@ const initialData = [
     emailID: "pqr@gmail.com",
     address: "789 Oak Dr",
     licenceNumber: "4729ywiuhw",
+    status: "Active",
     areaOfService: "Street Food",
     extraDetails:
       "This person owns and manages a food truck near Nishat Garden.",
@@ -130,6 +133,11 @@ const VendorTeamMembers = () => {
       key: "licenceNumber",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
       title: "Action",
       key: "action",
       render: (_, record) => (
@@ -163,9 +171,6 @@ const VendorTeamMembers = () => {
 
   return (
     <div className="table-container">
-      {" "}
-      {/* Apply styling to the container */}
-      {/* Table with expandable rows */}
       <Table
         columns={columns}
         dataSource={dataSource}
@@ -229,6 +234,18 @@ const VendorTeamMembers = () => {
             <Input />
           </Form.Item>
           <Form.Item
+            name="status"
+            label="Status"
+            rules={[
+              {
+                required: true,
+                message: "Please input the status of team member",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             name="areaOfService"
             label="Area of Service"
             rules={[
@@ -286,6 +303,13 @@ const VendorTeamMembers = () => {
             rules={[
               { required: true, message: "Please input the licence number!" },
             ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="status"
+            label="Status"
+            rules={[{ required: true, message: "Please input the status" }]}
           >
             <Input />
           </Form.Item>

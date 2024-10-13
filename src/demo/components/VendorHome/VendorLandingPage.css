@@ -1,14 +1,20 @@
-/* Center the menu in the middle of the page */
 
-.menu-item {
-    font-size: 18px; 
-    margin-right: 70px;
-  }
+.vendor-landing-page-div {
+  display: flex;          
+  justify-content: flex-start; 
+  align-items: flex-start; 
+  gap: 20px;              
+  padding: 20px;          
+}
 
-  
-.custom-menu  {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    padding-right: 70px; 
+.landing-page-menu-div {
+  flex: 0 0 auto;         
+  max-width: 256px;     
+  margin: 20px;
+}
+
+.landing-page-content-div {
+  flex-grow: 1;          
+  padding: 10px;          
+  border-radius: 8px;     
 }

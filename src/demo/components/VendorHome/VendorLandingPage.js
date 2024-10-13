@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import "./VendorLandingPage.css";
+import "./VendorLandingPage.css";
 import {
   AppstoreOutlined,
   TeamOutlined,
@@ -17,7 +17,7 @@ import VendorAnalytics from "./VendorAnalytics";
 import VendorSettings from "./VendorSettings";
 import VendorBookings from "./VendorBookings";
 
-// Menu items
+//menu items
 const items = [
   {
     label: "Services",
@@ -63,7 +63,7 @@ const VendorLandingPage = () => {
     setCollapsed(!collapsed);
   };
 
-  // Component switching logic
+  //component switching logic
   let Component;
   switch (current) {
     case "services":
@@ -78,7 +78,7 @@ const VendorLandingPage = () => {
     case "settings":
       Component = VendorSettings;
       break;
-    case "bookings": // New case for bookings
+    case "bookings":
       Component = VendorBookings;
       break;
     default:
@@ -86,12 +86,8 @@ const VendorLandingPage = () => {
   }
 
   return (
-    <div className="vendor-page">
-      <div
-        style={{
-          width: 256,
-        }}
-      >
+    <div className="vendor-landing-page-div">
+      <div className="landing-page-menu-div">
         <Button
           type="primary"
           onClick={toggleCollapsed}
@@ -111,9 +107,10 @@ const VendorLandingPage = () => {
           onClick={onClick}
           selectedKeys={[current]}
           className="custom-menu"
+          style={{ width: 200 }}
         />
       </div>
-      <div className="content-container">
+      <div className="landing-page-content-div">
         <Component />
       </div>
     </div>
