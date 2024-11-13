@@ -9,8 +9,8 @@ function App() {
     <>
       <Navbar />
       <VendorLandingPage />
-      {/*
-      <UserLandingPage />*/}
+
+      {/*<UserLandingPage />*/}
     </>
   );
 }

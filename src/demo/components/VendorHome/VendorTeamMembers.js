@@ -42,14 +42,14 @@ const initialData = [
 ];
 
 const VendorTeamMembers = () => {
-  const [dataSource, setDataSource] = useState(initialData); // Table data
+  const [dataSource, setDataSource] = useState(initialData); //table data
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [isAddModalVisible, setIsAddModalVisible] = useState(false); // State for Add Modal
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false); //state for add modal
   const [currentRecord, setCurrentRecord] = useState(null);
-  const [form] = Form.useForm(); // Create form instance
+  const [form] = Form.useForm(); //create form instance
 
-  // Functions to handle modals
+  //fnctions to handle modals
   const handleEdit = (record) => {
     setCurrentRecord(record);
     form.setFieldsValue(record);
@@ -64,17 +64,17 @@ const VendorTeamMembers = () => {
   const handleCancel = () => {
     setIsEditModalVisible(false);
     setIsDeleteModalVisible(false);
-    setIsAddModalVisible(false); // Hide Add Modal on cancel
+    setIsAddModalVisible(false);
     setCurrentRecord(null);
-    form.resetFields(); // Reset form when modal is closed
+    form.resetFields();
   };
 
   const confirmDelete = () => {
-    // Filter out the current record from the data source
+    //to filter out the current record from the data source
     const newData = dataSource.filter((item) => item.key !== currentRecord.key);
     setDataSource(newData);
     setIsDeleteModalVisible(false);
-    setCurrentRecord(null); // Clear the selected record
+    setCurrentRecord(null); //clear the selected record
   };
 
   const handleSaveEdit = () => {
@@ -84,33 +84,33 @@ const VendorTeamMembers = () => {
         const updatedDataSource = dataSource.map((item) =>
           item.key === currentRecord.key ? { ...item, ...values } : item
         );
-        setDataSource(updatedDataSource); // Update the table with new values
-        setIsEditModalVisible(false); // Close the modal
-        setCurrentRecord(null); // Clear the current record
-        form.resetFields(); // Reset form
+        setDataSource(updatedDataSource); //update the table with new values
+        setIsEditModalVisible(false); //close modal
+        setCurrentRecord(null); //clear current record
+        form.resetFields(); //reset form
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
   };
 
-  // Handle adding a new team member
+  //handle adding a new team member
   const handleAddNewMember = () => {
     form
       .validateFields()
       .then((values) => {
-        const newKey = dataSource.length + 1; // Generate new key
-        const newRecord = { key: newKey.toString(), ...values }; // Create new record
-        setDataSource([...dataSource, newRecord]); // Add new record to data source
-        setIsAddModalVisible(false); // Close modal
-        form.resetFields(); // Reset form
+        const newKey = dataSource.length + 1; //generate new key
+        const newRecord = { key: newKey.toString(), ...values }; //create new record
+        setDataSource([...dataSource, newRecord]); // add new record to data source
+        setIsAddModalVisible(false); //vlose modal
+        form.resetFields(); //reset form
       })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
   };
 
-  // Define columns for the table
+  //columns for tab;le
   const columns = [
     {
       title: "Name",
@@ -151,7 +151,7 @@ const VendorTeamMembers = () => {
     },
   ];
 
-  // Expandable row content
+  //expandable row content
   const expandable = {
     expandedRowRender: (record) => (
       <div>
@@ -176,11 +176,11 @@ const VendorTeamMembers = () => {
         dataSource={dataSource}
         expandable={expandable}
       />
-      {/* Add Team Member Button */}
+      {/* addd team member button here */}
       <Button
         type="primary"
-        style={{ marginTop: 16 }} // Add some space above the button
-        onClick={() => setIsAddModalVisible(true)} // Show Add Modal when clicked
+        style={{ marginTop: 16 }}
+        onClick={() => setIsAddModalVisible(true)} // show add Modal when clicked
       >
         Add Team Member
       </Button>
@@ -189,7 +189,7 @@ const VendorTeamMembers = () => {
         title="Edit Vendor"
         visible={isEditModalVisible}
         onCancel={handleCancel}
-        onOk={handleSaveEdit} // Save changes on OK
+        onOk={handleSaveEdit}
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -264,7 +264,7 @@ const VendorTeamMembers = () => {
         title="Add Team Member"
         visible={isAddModalVisible}
         onCancel={handleCancel}
-        onOk={handleAddNewMember} // Save new member on OK
+        onOk={handleAddNewMember} //save new member on OK
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -332,7 +332,7 @@ const VendorTeamMembers = () => {
         title="Delete Vendor"
         visible={isDeleteModalVisible}
         onCancel={handleCancel}
-        onOk={confirmDelete} // Confirm deletion
+        onOk={confirmDelete}
         okButtonProps={{ danger: true }}
       >
         <p>Are you sure you want to delete: {currentRecord?.name}?</p>
